@@ -3,6 +3,7 @@ package ru.parfenov.leetcode.practice;
 import java.util.concurrent.Semaphore;
 
 public class Parking {
+
     //Парковочное место занято - true, свободно - false
     private static final boolean[] PARKING_PLACES = new boolean[3];
     //Устанавливаем флаг "справедливый", в таком случае метод

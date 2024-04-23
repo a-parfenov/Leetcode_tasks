@@ -14,31 +14,30 @@ public class ReadAndWriteInFile {
     private static final int limitLines = 2000;
     private static final int startNumberUUID = 8100;
 
-    /*
-    * test data bd
-    *
-    * result line:
-    * ('22f8b58e-116e-4790-bdb3-d3202cef8101', '2023-08-02T17:36:41.659+03:00', '2023-08-02T17:36:41.659+03:00', 0, '2', 'учебная литература'),
-    */
+    /**
+     * result line:
+     * ('22f8b58e-116e-4790-bdb3-d3202cef8101', '2023-08-02T17:36:41.659+03:00', '2023-08-02T17:36:41.659+03:00', 0, '2', 'учебная литература'),
+     */
 
     public static void main(String[] args) {
 
+        AtomicInteger UUID = new AtomicInteger(startNumberUUID);
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH_READ));
              BufferedWriter writer = Files.newBufferedWriter(Paths.get(PATH_WRITE))) {
 
-            AtomicInteger UUID = new AtomicInteger(startNumberUUID);
-            reader.lines().limit(limitLines).forEach(line -> {
+            reader.lines()
+                    .limit(limitLines)
+                    .map(line -> line.split("\t"))
+                    .map(arraySubString -> getResultLine(arraySubString, UUID.getAndIncrement()))
+                    .forEach(resultLine -> {
+                        System.out.print(resultLine);
 
-                String[] arraySubString = line.split("\t");
-                String resultLine = getResultLine(arraySubString, UUID.getAndIncrement());
-                System.out.print(resultLine);
-
-                try {
-                    writer.write(resultLine);
-                } catch (IOException e) {
-                    System.err.println(e.getMessage());
-                }
-            });
+                        try {
+                            writer.write(resultLine);
+                        } catch (IOException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    });
 
         } catch (IOException e) {
             System.err.println(e.getMessage());

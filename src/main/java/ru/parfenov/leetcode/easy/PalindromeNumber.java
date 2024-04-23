@@ -3,6 +3,7 @@ package ru.parfenov.leetcode.easy;
 public class PalindromeNumber {
     public static void main(String[] args) {
         System.out.println(isPalindrome(121)); // true
+        System.out.println(isPalindrome(12321)); // true
         System.out.println(isPalindrome(-121)); // false
         System.out.println(isPalindrome(10)); // false
 
