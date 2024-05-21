@@ -25,22 +25,33 @@ public class MovingAverage {
 
     public final int size;
     private final List<Integer> window; // Нужно использовать Queue<Integer> -> ArrayDeque<>()
-    private double average; // Среднее
+    private int sumWindow; // Сумма значений в массиве
 
     public MovingAverage(int size) {
         this.window = new ArrayList<>();
         this.size = size;
-        this.average = 0.0;
+        this.sumWindow = 0;
     }
 
-    public double next(int newValue) {
+    public double next(int val) {
         if (window.size() == size) {
-            average -= window.remove(0); // Удаляем самое старое значение из окна и вычитаем его из суммы
+            sumWindow -= window.remove(0); // Удаляем самое старое значение из окна и вычитаем его из суммы
         }
-        window.add(newValue); // Добавляем новое значение в окно
-        average += newValue; // Обновляем сумму значений в окне
+        window.add(val); // Добавляем новое значение в окно
+        sumWindow += val; // Обновляем сумму значений в окне
 
-        return average / window.size(); // Возвращаем среднее значение для текущего окна
+        return (double) sumWindow / window.size(); // Возвращаем среднее значение для текущего окна
+    }
+
+    public double next2(int newValue) {
+        if (window.size() == size) {
+            window.remove(0);
+        }
+        window.add(newValue);
+
+        return window.stream()
+                .mapToDouble(Integer::doubleValue)
+                .reduce(0, Double::sum) / window.size();
     }
 
     public static void main(String[] args) {
