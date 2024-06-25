@@ -3,7 +3,6 @@ package ru.parfenov.leetcode.practice;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.parfenov.leetcode.practice.RandomStream;
 
 import java.util.Arrays;
 
@@ -24,11 +23,5 @@ public class RandomStreamTest {
         Arrays.stream(actual).forEach(n -> System.out.print(n + " "));
         System.out.println();
         Arrays.stream(expected).forEach(n -> System.out.print(n + " "));
-    }
-
-    @Test
-    void t() {
-        System.out.println(false==false);
-
     }
 }

@@ -62,11 +62,9 @@ class AlphaBankTaxCalculator implements TaxCalculator {
 
 class TaxCalculatorSber implements TaxCalculator {
     @Override
-    PlatformTransactionManager
     public BigDecimal calculateTax(BigDecimal income) {
         BigDecimal base = income.multiply(BigDecimal.valueOf(0.87));
         BigDecimal custom = income.multiply(BigDecimal.valueOf(0.1)).add(BigDecimal.valueOf(0.11));
-        Set
         return base.subtract(custom);
     }
 }

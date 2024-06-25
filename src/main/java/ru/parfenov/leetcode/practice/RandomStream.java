@@ -1,6 +1,5 @@
 package ru.parfenov.leetcode.practice;
 
-
 import org.springframework.stereotype.Component;
 
 import java.util.stream.IntStream;

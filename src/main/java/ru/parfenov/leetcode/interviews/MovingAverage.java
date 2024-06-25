@@ -1,9 +1,12 @@
 package ru.parfenov.leetcode.interviews;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-/*
+/**
  * Расчет скользящего среднего
  * Пример:
  * MovingAverage ma = new MovingAverage(3);
@@ -11,7 +14,7 @@ import java.util.List;
  * ma.next(2); // -> 1,5
  * ma.next(3); // -> 2
  * ma.next(4); // -> 3
- *
+
  * Метод next ->
  * 1. Когда метод next вызывается с новым значением val, он проверяет, достиг ли размер окна максимального значения.
  * Если размер окна уже равен максимальному, то самое старое значение извлекается из окна.
@@ -19,18 +22,28 @@ import java.util.List;
  * 3. Наконец, метод возвращает среднее значение для текущего окна, которое рассчитывается как общая сумма
  * всех значений в окне, деленная на количество значений в окне.
  * Таким образом, метод next обеспечивает обновление окна и вычисление скользящего среднего при добавлении новых значений.
- * */
+ */
 
 public class MovingAverage {
 
     public final int size;
-    private final List<Integer> window; // Нужно использовать Queue<Integer> -> ArrayDeque<>()
+    private final List<Integer> window; // Можно использовать Queue<Integer> -> ArrayDeque<>()
     private int sumWindow; // Сумма значений в массиве
 
     public MovingAverage(int size) {
         this.window = new ArrayList<>();
         this.size = size;
         this.sumWindow = 0;
+    }
+
+    public static void main(String[] args) {
+        MovingAverage ma = new MovingAverage(3);
+        System.out.println(ma.next(1)); // -> 1.0
+        System.out.println(ma.next(2)); // -> 1.5
+        System.out.println(ma.next(3)); // -> 2.0
+        System.out.println(ma.next(4)); // -> 3.0
+        System.out.println(ma.next(5)); // -> 4.0
+        System.out.println(ma.next(6)); // -> 5.0
     }
 
     public double next(int val) {
@@ -54,14 +67,16 @@ public class MovingAverage {
                 .reduce(0, Double::sum) / window.size();
     }
 
-    public static void main(String[] args) {
-        MovingAverage ma = new MovingAverage(3);
-        System.out.println(ma.next(1)); // -> 1.0
-        System.out.println(ma.next(2)); // -> 1.5
-        System.out.println(ma.next(3)); // -> 2.0
-        System.out.println(ma.next(4)); // -> 3.0
-        System.out.println(ma.next(5)); // -> 4.0
-        System.out.println(ma.next(6)); // -> 5.0
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MovingAverage that = (MovingAverage) o;
+        return size == that.size && sumWindow == that.sumWindow && Objects.equals(window, that.window);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(size, window, sumWindow);
+    }
 }
